@@ -11,7 +11,12 @@ Faker::Config.locale = :ja
 
 # generate user
 40.times do
-  user = User.new email: Faker::Internet.email, password: Faker::Internet.password(10), name: Faker::Name.name
+  user = User.new(
+    email: Faker::Internet.email,
+    password: Faker::Internet.password(10),
+    name: Faker::Name.name,
+    point: rand(0..100)
+  )
   user.skip_confirmation!
   user.save!
 end
