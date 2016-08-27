@@ -9,10 +9,19 @@ class Solution < ApplicationRecord
     # userのpoint
     # そのshiftの人気
     # eagerness
-
-    requests.sum do |request|
-      request.score_by_point + request.shift.score_by_popularity + request.eagerness
-    end.round(2)
+    
+    score = requests.sum{|request| 
+      request.score_by_point + request.shift.score_by_popularity + request.eagerness/4
+    }
+    score = (score / requests.count.to_f * 100 )
+    user_ids = []
+    requests.each do |request|
+      user_ids << request.user_id
+    end
+    # 3回入った人がいれば3というように、一番シフトに入った人の回数を求める。
+    duplication_count = user_ids.select{|id| user_ids.count(id) > 1 }.uniq.map{|id| user_ids.count(id)}.max
+    score /= duplication_count.to_f
+    score.round(2)
   end
 
   def default_request_id_for_select_tag(shift)

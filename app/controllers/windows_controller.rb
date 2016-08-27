@@ -35,7 +35,7 @@ class WindowsController < ApplicationController
       @dates << date_base.advance(days: 7*n)
       puts n
     end
-    @dates = @dates.map{|date| [date.strftime("%Y-%m-%d"), date.to_time.to_i] }
+    @dates = @dates.map{|date| [date.strftime("%m/%d") + " -> " + date.next_week.yesterday.strftime("%m/%d"), date.to_time.to_i] }
   end
 
   # GET /windows/1/edit
