@@ -2,5 +2,4 @@
 
 <%= render 'form', window: @window %>
 
-<%= link_to 'Show', @window %> |
-<%= link_to 'Back', windows_path %>
+<%= link_to 'Delete', window, method: :delete, data: { confirm: 'Are you sure?' } %>
