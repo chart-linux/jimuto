@@ -18,6 +18,6 @@ class Request < ApplicationRecord
   # userのpoint
   # pointが少ない人が入った時に高くなるように
   def score_by_point
-    1.to_f/ user.point
+    Math.exp(-user.point)
   end
 end
