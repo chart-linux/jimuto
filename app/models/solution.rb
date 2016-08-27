@@ -12,6 +12,6 @@ class Solution < ApplicationRecord
 
     requests.sum do |request|
       request.score_by_point + request.shift.score_by_popularity + request.eagerness
-    end
+    end.round(2)
   end
 end

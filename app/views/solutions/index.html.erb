@@ -11,8 +11,8 @@
   <tbody>
     <% @solutions.each do |solution| %>
       <tr>
-        <td>solution.user.name</td>
-        <td>solution.score</td>
+        <td><%= solution.user.name %></td>
+        <td><%= solution.score %></td>
       </tr>
     <% end %>
   </tbody>
@@ -20,4 +20,4 @@
 
 <br>
 
-<%= link_to 'New Solution', new_solution_path window_id: @solutions.first&.window_id %>
+<%= link_to 'New Solution', new_solution_path(window_id: @solutions.first.window_id) %>
