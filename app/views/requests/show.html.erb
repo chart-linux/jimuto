@@ -1,4 +1,9 @@
 <p id="notice"><%= notice %></p>
 
+<ul>
+  <li><%= @request.user.name %>
+  <li><%= @request.shift.start.strftime('%Y-%m-%d %H:%M') %>  - <%= @request.shift.end.strftime('%H:%M') %>
+  <li><%= @request.eagerness %>
+</ul>
 <%= link_to 'Edit', edit_request_path(@request) %> |
 <%= link_to 'Back', requests_path %>
