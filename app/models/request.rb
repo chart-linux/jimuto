@@ -3,6 +3,8 @@ class Request < ApplicationRecord
   belongs_to :user
   has_many :request_resolutions
   has_many :solutions, through: :request_solutions
+  # eagernessは1から4
+  validates :eagerness, numericality: {only_integer: true, greater_than: 0, less_than: 5}
 
   # userのpoint
   # pointが少ない人が入った時に高くなるように
