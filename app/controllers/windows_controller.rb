@@ -29,6 +29,13 @@ class WindowsController < ApplicationController
   # GET /windows/new
   def new
     @window = Window.new
+    date_base = Date.today.next_week
+    @dates = []
+    for n in 0...8 do
+      @dates << date_base.advance(days: 7*n)
+      puts n
+    end
+    @dates = @dates.map{|date| [date.strftime("%Y-%m-%d"), date.to_time.to_i] }
   end
 
   # GET /windows/1/edit
@@ -42,16 +49,26 @@ class WindowsController < ApplicationController
   # POST /windows.json
   def create
     @window = Window.new(window_params)
-
-    respond_to do |format|
-      if @window.save
-        format.html { redirect_to @window, notice: 'Window was successfully created.' }
-        format.json { render :show, status: :created, location: @window }
-      else
-        format.html { render :new }
-        format.json { render json: @window.errors, status: :unprocessable_entity }
-      end
+    puts "------------------------------------"
+    pp window_params
+    @window.save!
+    time = Time.at(start_date_params["start_date"].to_i)
+    7.times do |week_num|
+      [[[hour: 8], [hour: 10]], [[hour: 10], [hour: 12, minute: 30]],[ [hour: 12, minute: 30], [hour: 15]],[[hour: 15], [hour: 17, minute: 30]],[[hour: 17, minute: 30],[hour: 20]],[[hour: 20], [hour: 23]]].each do |options|
+      Shift.create!(
+        start: time.change(options[0][0]),
+        end: time.change(options[1][0]),
+        window: @window
+      )
     end
+      Shift.create!(
+        start: time.change(hour: 23),
+        end: time.tomorrow.change(hour: 8),
+        window: @window
+      )
+    time = time.tomorrow
+    end
+    redirect_to @window
   end
 
   # PATCH/PUT /windows/1
@@ -87,5 +104,9 @@ class WindowsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def window_params
       params.require(:window).permit(:message, :status)
+    end
+
+    def start_date_params
+      params.permit(:start_date)
     end
 end
