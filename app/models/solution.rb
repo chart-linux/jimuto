@@ -15,6 +15,12 @@ class Solution < ApplicationRecord
     end.round(2)
   end
 
+  def default_request_id_for_select_tag
+    unless new_record?
+      request_solutions.find_by_shift(shift)&.request&.id
+    end
+  end
+
   def self.greatest
     all.sort_by { |solution| - solution.score }.first
   end
