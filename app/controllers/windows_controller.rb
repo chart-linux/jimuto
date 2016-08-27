@@ -12,6 +12,18 @@ class WindowsController < ApplicationController
   # GET /windows/1.json
   def show
     @shifts = Shift.where('window_id = ?', @window).group_by{|s| s.start.strftime("%Y-%m-%d")}
+    @user_requests = []
+    @shifts.each do |day, shift_by_day|
+      shift_by_day.each do |shift|
+        ur = current_user.requests.select {|r| r.shift == shift}
+        if ur.count != 0 then
+          ur = ur[0]
+        else
+          ur = false
+        end
+        @user_requests[shift.id] = ur
+      end
+    end
   end
 
   # GET /windows/new
