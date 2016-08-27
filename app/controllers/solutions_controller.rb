@@ -15,6 +15,7 @@ class SolutionsController < ApplicationController
   # GET /solutions/new
   def new
     @solution = Solution.new
+    @shifts = Shift.all.group_by{|s| s.start.strftime("%Y-%m-%d")}
   end
 
   # GET /solutions/1/edit
