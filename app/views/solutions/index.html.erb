@@ -1,5 +1,7 @@
 <h1>Solutions</h1>
 
+<% if @solutions.length != 0 %>
+
 <table>
   <thead>
     <tr>
@@ -19,5 +21,8 @@
 </table>
 
 <br>
+<% else %>
+<p>解決案がありません。解決案を投稿してください。<p>
+<% end %>
 
-<%= link_to 'New Solution', new_solution_path(window_id: @solutions.first.window_id) %>
+<%= link_to 'New Solution', new_solution_path(window_id: @window.id) %>
