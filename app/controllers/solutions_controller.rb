@@ -25,26 +25,14 @@ class SolutionsController < ApplicationController
   # POST /solutions
   # POST /solutions.json
   def create
-    s = Solution.new(user: current_user, window: Shift.find(params[:shifts].first.first.to_i).window)
-    s.save!
     # params[:shifts]は、Shiftのid => Requestのid のハッシュ
-    request_solutions = params[:shifts].map{|k, v| RequestSolution.new(solution_id: s.id ,request_id: v.to_i) }
-    # boolだと思ったらboolじゃないようだ
-    b = RequestSolution.import request_solutions
-    if b
+    shift = Shift.find(params[:shifts].first.first.to_i)
+    solution = current_user.solutions.create(window: shift.window)
+    request_solutions = params[:shifts].map{|_, request_id| solution.request_solutions.build(request_id: request_id.to_i) }
+
+    if RequestSolution.import request_solutions
       redirect_to controller: :windows, action: 'index', notice: 'シフトの解決案を提出しました。'
     end
-=begin
-    respond_to do |format|
-      if @solution.save
-        format.html { redirect_to @solution, notice: 'Solution was successfully created.' }
-        format.json { render :show, status: :created, location: @solution }
-      else
-        format.html { render :new }
-        format.json { render json: @solution.errors, status: :unprocessable_entity }
-      end
-    end
-=end
   end
 
   # PATCH/PUT /solutions/1
