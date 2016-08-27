@@ -1,7 +1,7 @@
 class Request < ApplicationRecord
   belongs_to :shift
   belongs_to :user
-  has_many :request_resolutions
+  has_many :request_solutions
   has_many :solutions, through: :request_solutions
   # eagernessは1から4
   validates :eagerness, numericality: {only_integer: true, greater_than: 0, less_than: 5}

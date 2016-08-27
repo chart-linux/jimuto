@@ -15,7 +15,7 @@ Faker::Config.locale = :ja
     email: Faker::Internet.email,
     password: Faker::Internet.password(10),
     name: Faker::Name.name,
-    point: rand(0..100)
+    point: rand(1..100)
   )
   user.skip_confirmation!
   user.save!

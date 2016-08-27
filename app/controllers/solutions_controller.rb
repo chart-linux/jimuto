@@ -5,7 +5,7 @@ class SolutionsController < ApplicationController
   # GET /solutions
   # GET /solutions.json
   def index
-    @solutions = Solution.where(window: @window).sort_by { |solution| solution.score }
+    @solutions = Solution.where(window: @window).sort_by { |solution| - solution.score }
   end
 
   # GET /solutions/1
@@ -15,7 +15,7 @@ class SolutionsController < ApplicationController
 
   # GET /solutions/new
   def new
-    @solution = Solution.new
+    @solution = Solution.new()
     @shifts = Shift.all.group_by{|s| s.start.strftime("%Y-%m-%d")}
   end
 
@@ -26,16 +26,13 @@ class SolutionsController < ApplicationController
   # POST /solutions
   # POST /solutions.json
   def create
-    @solution = Solution.new(solution_params)
+    # params[:shifts]は、Shiftのid => Requestのid のハッシュ
+    shift = Shift.find(params[:shifts].first.first.to_i)
+    solution = current_user.solutions.create(window: shift.window)
+    request_solutions = params[:shifts].map{|_, request_id| solution.request_solutions.build(request_id: request_id.to_i) }
 
-    respond_to do |format|
-      if @solution.save
-        format.html { redirect_to @solution, notice: 'Solution was successfully created.' }
-        format.json { render :show, status: :created, location: @solution }
-      else
-        format.html { render :new }
-        format.json { render json: @solution.errors, status: :unprocessable_entity }
-      end
+    if RequestSolution.import request_solutions
+      redirect_to controller: :windows, action: 'index', notice: 'シフトの解決案を提出しました。'
     end
   end
 
