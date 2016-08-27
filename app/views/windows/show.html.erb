@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <%= @window.message %>
+</p>
+
+<h2>Shifts</h2>
+
+<div class='timetable'>
+    <% @shifts.each do |day, shiftday| %>
+      <div class='day'>
+      <% shiftday.each do |shift| %>
+      <div class='box'><%= shift.start.strftime('%H:%M') %> - <%= shift.end.strftime('%H:%M') %>
+      <div><%= link_to 'Show', shift %></div>
+      <div><%= link_to 'Edit', edit_shift_path(shift) %></div>
+      <div><%= link_to 'Destroy', shift, method: :delete, data: { confirm: 'Are you sure?' } %></div>
+      </div>
+    <% end %>
+    </div>
+    <% end %>
+</div>
+
+<!-- %= link_to 'New Shift', new_shift_path % -->
+
+<%= link_to 'Edit Message', edit_window_path(@window) %> |
+<%= link_to 'Back', windows_path %>
