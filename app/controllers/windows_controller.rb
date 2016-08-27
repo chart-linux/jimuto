@@ -1,5 +1,6 @@
 class WindowsController < ApplicationController
   before_action :set_window, only: [:show, :edit, :update, :destroy, :init_timetable]
+  before_action :admin_user!, except: [:show, :index]
 
   # GET /windows
   # GET /windows.json
@@ -11,6 +12,18 @@ class WindowsController < ApplicationController
   # GET /windows/1.json
   def show
     @shifts = Shift.where('window_id = ?', @window).group_by{|s| s.start.strftime("%Y-%m-%d")}
+    @user_requests = []
+    @shifts.each do |day, shift_by_day|
+      shift_by_day.each do |shift|
+        ur = current_user.requests.select {|r| r.shift == shift}
+        if ur.count != 0 then
+          ur = ur[0]
+        else
+          ur = false
+        end
+        @user_requests[shift.id] = ur
+      end
+    end
   end
 
   # GET /windows/new
@@ -90,7 +103,7 @@ class WindowsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def window_params
-      params.require(:window).permit(:message)
+      params.require(:window).permit(:message, :status)
     end
 
     def start_date_params

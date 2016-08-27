@@ -14,4 +14,14 @@ class Solution < ApplicationRecord
       request.score_by_point + request.shift.score_by_popularity + request.eagerness
     end.round(2)
   end
+
+  def default_request_id_for_select_tag(shift)
+    unless new_record?
+      request_solutions.find_by_shift(shift)&.request&.id
+    end
+  end
+
+  def self.greatest
+    all.sort_by { |solution| - solution.score }.first
+  end
 end

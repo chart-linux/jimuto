@@ -7,6 +7,21 @@
   margin: 10px;
   border: solid 1px;
   height: 10em;
+  overflow: hidden;
+}
+
+.box.has_user_request {
+  background: yellow;
+}
+
+dt {
+  width: 4em;
+  float: left;
+  clear: both;
+}
+
+dd {
+  float: left;
 }
 
 .box.a0 {
@@ -35,10 +50,34 @@
   float: left;
 }
 
+.timetable {
+  clear: both;
+}
 .timetable::after {
   clear: both;
 }
 
 ul {
-  margin: 0
+  margin: 0;
+  padding-left: 1em;
+}
+
+li {
+  display: block;
+}
+
+.eagerness0 {
+  color: #aaa;
+}
+.eagerness1 {
+  color: #aaa;
+}
+.eagerness2 {
+  color: #888;
+}
+.eagerness3 {
+  color: #444;
+}
+.eagerness4 {
+  color: #000;
 }

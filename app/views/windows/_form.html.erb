@@ -17,6 +17,11 @@
     <%= select_tag :start_date, options_for_select(@dates) %>
   </div>
 
+  <div class="field">
+    <%= f.label :status %>
+    <%= f.select :status, Window.statuses.keys.to_a %>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

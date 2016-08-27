@@ -9,4 +9,10 @@ class ApplicationController < ActionController::Base
       devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
       devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :password, :password_confirmation, :current_password) }
     end
+    
+    def admin_user!
+      unless current_user&.admin?
+        return render status: :forbidden, text: 'You are not administrator.'
+      end
+    end
 end

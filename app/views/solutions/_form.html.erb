@@ -1,4 +1,4 @@
-<%= form_for @solution  do |f| %>
+<%= form_for @solution.dup do |f| %>
   <% if solution.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(solution.errors.count, "error") %> prohibited this solution from being saved:</h2>
@@ -19,7 +19,13 @@
         <%= day %>
         <% shiftday.each do |shift| %>
         <div class='box'><%= shift.start.strftime('%H:%M') %> - <%= shift.end.strftime('%H:%M') %>
-          <%= select_tag "shifts[#{shift.id}]", options_for_select( shift.requests.map{|request| [request.user.name + " / スコア:" +  request.user.point.to_s + " / 意欲:" + request.eagerness.to_s, request.id] } ) %>
+        <%= select_tag(
+          "shifts[#{shift.id}]",
+          options_for_select(
+            shift.requests.for_select_tag,
+            @solution.default_request_id_for_select_tag(shift)
+          ))
+        %>
         </div>
       <% end %>
       </div>
