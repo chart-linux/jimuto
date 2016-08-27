@@ -15,7 +15,7 @@ class Solution < ApplicationRecord
     end.round(2)
   end
 
-  def default_request_id_for_select_tag
+  def default_request_id_for_select_tag(shift)
     unless new_record?
       request_solutions.find_by_shift(shift)&.request&.id
     end

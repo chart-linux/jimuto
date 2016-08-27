@@ -23,7 +23,7 @@
           "shifts[#{shift.id}]",
           options_for_select(
             shift.requests.for_select_tag,
-            @solution.default_request_id_for_select_tag
+            @solution.default_request_id_for_select_tag(shift)
           ))
         %>
         </div>
