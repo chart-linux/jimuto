@@ -1,10 +1,11 @@
 class SolutionsController < ApplicationController
   before_action :set_solution, only: [:show, :edit, :update, :destroy]
+  before_action :set_window, only: [:index]
 
   # GET /solutions
   # GET /solutions.json
   def index
-    @solutions = Solution.all
+    @solutions = Solution.where(window: @window).sort_by { |solution| solution.score }
   end
 
   # GET /solutions/1
@@ -65,6 +66,10 @@ class SolutionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_solution
       @solution = Solution.find(params[:id])
+    end
+    
+    def set_window
+      @window = Window.find(params[:window_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
