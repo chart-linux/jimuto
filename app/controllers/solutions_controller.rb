@@ -1,6 +1,6 @@
 class SolutionsController < ApplicationController
   before_action :set_solution, only: [:show, :edit, :update, :destroy]
-  before_action :set_window, only: [:index]
+  before_action :set_window, only: [:index, :new]
 
   # GET /solutions
   # GET /solutions.json
@@ -15,7 +15,11 @@ class SolutionsController < ApplicationController
 
   # GET /solutions/new
   def new
-    @solution = Solution.new()
+    if params[:copy_from].present? && Solution.find(params[:copy_from])&.user == current_user
+      @solution = Solution.find(params[:copy_from])
+    else
+      @solution = Solution.new
+    end
     @shifts = Shift.where(window: @window).group_by{|s| s.start.strftime("%Y-%m-%d")}
   end
 
