@@ -4,7 +4,7 @@ class ShiftsController < ApplicationController
   # GET /shifts
   # GET /shifts.json
   def index
-    @shifts = Shift.all
+    @shifts = Shift.all.group_by{|s| s.start.strftime("%Y-%m-%d")}
   end
 
   # GET /shifts/1
