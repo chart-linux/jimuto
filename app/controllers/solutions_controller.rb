@@ -14,7 +14,7 @@ class SolutionsController < ApplicationController
 
   # GET /solutions/new
   def new
-    @solution = Solution.new
+    @solution = Solution.new()
     @shifts = Shift.all.group_by{|s| s.start.strftime("%Y-%m-%d")}
   end
 
@@ -25,8 +25,16 @@ class SolutionsController < ApplicationController
   # POST /solutions
   # POST /solutions.json
   def create
-    @solution = Solution.new(solution_params)
-
+    s = Solution.new(user_id: current_user, window_id: Shift.find(params[:shifts].first.first.to_i).window.id)
+    s.save
+    # params[:shifts]は、Shiftのid => Requestのid のハッシュ
+    request_solutions = params[:shifts].map{|k, v| RequestSolution.new(solution_id: s.id ,request_id: v.to_i) }
+    # boolだと思ったらboolじゃないようだ
+    b = RequestSolution.import request_solutions
+    if b
+      redirect_to controller: :windows, action: 'index', notice: 'シフトの解決案を提出しました。'
+    end
+=begin
     respond_to do |format|
       if @solution.save
         format.html { redirect_to @solution, notice: 'Solution was successfully created.' }
@@ -36,6 +44,7 @@ class SolutionsController < ApplicationController
         format.json { render json: @solution.errors, status: :unprocessable_entity }
       end
     end
+=end
   end
 
   # PATCH/PUT /solutions/1
