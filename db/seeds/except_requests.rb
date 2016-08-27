@@ -16,6 +16,11 @@ Faker::Config.locale = :ja
   user.save!
 end
 
+# for debug
+user = User.new email: 'kumano@kumano-ryo.com', password: 'password', name: '熊野 太郎'
+user.skip_confirmation!
+user.save!
+
 window = Window.create! message: Faker::Hacker.say_something_smart
 
 # generate shift
