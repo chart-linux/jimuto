@@ -1,0 +1,1 @@
+json.array! @request_solutions, partial: 'request_solutions/request_solution', as: :request_solution

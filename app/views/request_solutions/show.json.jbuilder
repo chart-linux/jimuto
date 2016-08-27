@@ -1,0 +1,1 @@
+json.partial! "request_solutions/request_solution", request_solution: @request_solution
