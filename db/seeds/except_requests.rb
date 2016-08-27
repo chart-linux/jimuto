@@ -16,10 +16,20 @@ Faker::Config.locale = :ja
   user.save!
 end
 
+window = Window.create! message: Faker::Hacker.say_something_smart
+
 # generate shift
 (Date.today.beginning_of_week..Date.today.end_of_week).each do |date|
   [8, 11, 14, 17, 20].each do |start_hour|
-    Shift.create start: date.to_time.change(hour: start_hour), end: date.to_time.change(hour: start_hour + 3)
+    Shift.create!(
+      start: date.to_time.change(hour: start_hour),
+      end: date.to_time.change(hour: start_hour + 3),
+      window: window
+    )
   end
-  Shift.create start: date.to_time.change(hour: 23), end: date.next_day.to_time.change(hour: 8)
+  Shift.create!(
+    start: date.to_time.change(hour: 23),
+    end: date.next_day.to_time.change(hour: 8),
+    window: window
+  )
 end
