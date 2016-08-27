@@ -14,4 +14,8 @@ class Solution < ApplicationRecord
       request.score_by_point + request.shift.score_by_popularity + request.eagerness
     end.round(2)
   end
+
+  def self.greatest
+    all.sort_by { |solution| - solution.score }.first
+  end
 end

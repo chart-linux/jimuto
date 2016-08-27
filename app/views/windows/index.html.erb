@@ -5,18 +5,26 @@
 <table>
   <thead>
     <tr>
+      <th>Period</th>
       <th>Message</th>
-      <th colspan="4"></th>
+      <th>Solutions</th>
+      <% if current_user.admin? then %>
+      <th>Manipulation</th>
+      <% end %>
+      <th>Status</th>
     </tr>
   </thead>
 
   <tbody>
     <% @windows.each do |window| %>
       <tr>
+        <td><%= link_to window.period, window %></td>
         <td><%= window.message %></td>
-        <td><%= link_to 'Show', window %></td>
-        <td><%= link_to 'Solutions', solutions_path(window_id: window.id ) %>
+        <td><%= link_to "Greatest: #{window.solutions.greatest&.score || 'No one solved yet' }", solutions_path(window_id: window.id ) %>
+        <% if current_user.admin? then %>
         <td><%= link_to 'Edit', edit_window_path(window) %></td>
+        <% end %>
+        <td><%= window.status  %></td>
       </tr>
     <% end %>
   </tbody>
@@ -24,4 +32,6 @@
 
 <br>
 
+<% if current_user.admin? then %>
 <%= link_to 'New Window', new_window_path %>
+<% end %>

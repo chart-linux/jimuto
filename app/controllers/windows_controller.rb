@@ -1,5 +1,6 @@
 class WindowsController < ApplicationController
   before_action :set_window, only: [:show, :edit, :update, :destroy, :init_timetable]
+  before_action :admin_user!, except: [:show, :index]
 
   # GET /windows
   # GET /windows.json
