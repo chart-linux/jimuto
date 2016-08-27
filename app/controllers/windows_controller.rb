@@ -1,7 +1,7 @@
 class WindowsController < ApplicationController
   before_action :set_window, only: [:show, :edit, :update, :destroy, :init_timetable]
   before_action :admin_user!, except: [:show, :index]
-
+  YOUBI = %w[日 月 火 水 木 金 土]
   # GET /windows
   # GET /windows.json
   def index
@@ -11,7 +11,7 @@ class WindowsController < ApplicationController
   # GET /windows/1
   # GET /windows/1.json
   def show
-    @shifts = Shift.where('window_id = ?', @window).group_by{|s| s.start.strftime("%Y-%m-%d")}
+    @shifts = Shift.where('window_id = ?', @window).group_by{|s| s.start.strftime("%m/%d") + "(" + YOUBI[s.start.wday] + ")"}
     @user_requests = []
     @shifts.each do |day, shift_by_day|
       shift_by_day.each do |shift|

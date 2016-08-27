@@ -1,25 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<p>
+<h1>
+  <%= @window.period %>
   <%= @window.message %>
-</p>
+</h1>
 
-<h2>Shifts</h2>
+<div class="row">
+<h2 class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10">希望シフト表  <%=current_user.name%></h2>
+</div>
 <p>シフトに入るには、入りたい度に応じて、星をつけてください。</p>
 <dl>
 <dt>☆</dt><dd>できれば他の人に入って欲しい</dd>
 <dt>☆☆</dt><dd>どちらかというと他の時間に入りたい</dd>
 <dt>☆☆☆</dt><dd>どちらかといえばこの時間が都合がよい</dd>
 <dt>☆☆☆☆</dt><dd>できればこの時間に入りたい</dd>
-<div class='timetable'>
+<div class='timetable list-group'>
     <% @shifts.each do |day, shiftday| %>
       <div class='day'>
-        <div class='title'><%= day %></div>
+        <div class='title list-group-item'><%= day %></div>
       <% shiftday.each do |shift| %>
         <% ur = @user_requests[shift.id] %>
-        <div id='shift<%= shift.id %>' class='box a<%= shift.requests.length %> <%= ur ? "has_user_request" : "" %>'>
+        <div id='shift<%= shift.id %>' class='box a<%= shift.requests.length %> <%= ur ? "has_user_request" : "" %> list-group-item-heading'>
           <%= shift.start.strftime('%H:%M') %> - <%= shift.end.strftime('%H:%M') %>
-          <form class='star-bearer'>
+          <form class='star-bearer list-group-item-text'>
             <input name="<%= shift.id %>" type="radio" class="star" value="1" <%= ur and ur.eagerness == 1 ? "checked" : "" %>/>
             <input name="<%= shift.id %>" type="radio" class="star" value="2" <%= ur and ur.eagerness == 2 ? "checked" : "" %>/>
             <input name="<%= shift.id %>" type="radio" class="star" value="3" <%= ur and ur.eagerness == 3 ? "checked" : "" %>/>
@@ -44,7 +47,7 @@
 <%= link_to 'Edit Message', edit_window_path(@window) %> |
 <%= link_to 'Back', windows_path %>
 
-<div id="username"><%=current_user.name%></div>
+
 
 
 <%= javascript_tag do %>
