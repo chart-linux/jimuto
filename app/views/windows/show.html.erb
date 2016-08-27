@@ -19,7 +19,7 @@
         <% ur = @user_requests[shift.id] %>
         <div id='shift<%= shift.id %>' class='box a<%= shift.requests.length %> <%= ur ? "has_user_request" : "" %>'>
           <%= shift.start.strftime('%H:%M') %> - <%= shift.end.strftime('%H:%M') %>
-          <form>
+          <form class='star-bearer'>
             <input name="<%= shift.id %>" type="radio" class="star" value="1" <%= ur and ur.eagerness == 1 ? "checked" : "" %>/>
             <input name="<%= shift.id %>" type="radio" class="star" value="2" <%= ur and ur.eagerness == 2 ? "checked" : "" %>/>
             <input name="<%= shift.id %>" type="radio" class="star" value="3" <%= ur and ur.eagerness == 3 ? "checked" : "" %>/>
@@ -46,8 +46,17 @@
 
 <div id="username"><%=current_user.name%></div>
 
+
+<%= javascript_tag do %>
+  window.update_disable = <%= not @window.requesting? %>;
+<% end %>
+
 <script>
-  $( 'input.star' ).change( function() {  
+  $ (function () {
+  if (update_disable) {
+    $('input.star').rating('disable');
+  }
+  $('input.star').change( function() {
     $.ajax({
        scriptCharset: 'utf-8',
        type:"PUT",
@@ -69,7 +78,7 @@
          $("#request" + data.request).removeClass('eagerness4');
          $("#request" + data.request).addClass('eagerness' + data.eagerness);
        }
-    }
-    )
-  });
+    })
+  })
+});
 </script>
