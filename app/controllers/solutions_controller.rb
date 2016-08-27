@@ -25,8 +25,8 @@ class SolutionsController < ApplicationController
   # POST /solutions
   # POST /solutions.json
   def create
-    s = Solution.new(user_id: current_user, window_id: Shift.find(params[:shifts].first.first.to_i).window.id)
-    s.save
+    s = Solution.new(user: current_user, window: Shift.find(params[:shifts].first.first.to_i).window)
+    s.save!
     # params[:shifts]は、Shiftのid => Requestのid のハッシュ
     request_solutions = params[:shifts].map{|k, v| RequestSolution.new(solution_id: s.id ,request_id: v.to_i) }
     # boolだと思ったらboolじゃないようだ
