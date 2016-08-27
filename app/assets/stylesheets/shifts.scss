@@ -4,7 +4,28 @@
 
 
 .box {
-  background: blue;
+  margin: 10px;
+  border: solid 1px;
+  height: 10em;
+}
+
+.box.a0 {
+  background: red;
+  color: white;
+  margin: 10px;
+}
+.box.a1 {
+  background: yellow;
+  color: white;
+  margin: 10px;
+}
+.box.a2 {
+  background: green;
+  color: white;
+  margin: 10px;
+}
+.box.a3 {
+  background: green;
   color: white;
   margin: 10px;
 }
@@ -14,6 +35,10 @@
   float: left;
 }
 
-.timetable:after {
+.timetable::after {
   clear: both;
+}
+
+ul {
+  margin: 0
 }

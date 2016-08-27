@@ -1,3 +1,57 @@
 // Place all the styles related to the Windows controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.title {
+  text-align: center;
+  font-size: 120%;
+  border: solid 1px;
+  background: #ccc;
+  margin: 10px;
+  padding: 0.3em;
+}
+
+.box {
+  margin: 10px;
+  border: solid 1px;
+  height: 10em;
+}
+
+.box.a0 {
+  background: red;
+  color: white;
+  margin: 10px;
+}
+.box.a1 {
+  background: yellow;
+  color: white;
+  margin: 10px;
+}
+.box.a2 {
+  background: green;
+  color: white;
+  margin: 10px;
+}
+.box.a3 {
+  background: green;
+  color: white;
+  margin: 10px;
+}
+
+.day {
+  width: 12%;
+  float: left;
+}
+
+.timetable::after {
+  clear: both;
+}
+
+ul {
+  margin: 0
+}
+
+form {
+  height: 2em;
+}
+  
