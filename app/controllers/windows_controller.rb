@@ -73,6 +73,6 @@ class WindowsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def window_params
-      params.require(:window).permit(:message)
+      params.require(:window).permit(:message, :status)
     end
 end
