@@ -22,7 +22,7 @@ Faker::Config.locale = :ja
 end
 
 # for debug
-user = User.new email: 'kumano@kumano-ryo.com', password: 'password', name: '熊野 太郎'
+user = User.new email: 'kumano@kumano-ryo.com', password: 'password', name: '熊野 太郎', admin: true
 user.skip_confirmation!
 user.save!
 

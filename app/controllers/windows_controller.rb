@@ -40,6 +40,7 @@ class WindowsController < ApplicationController
 
   # GET /windows/1/edit
   def edit
+    @dates = []
   end
 
   def init_timetable
