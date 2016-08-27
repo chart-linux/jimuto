@@ -5,7 +5,7 @@ class SolutionsController < ApplicationController
   # GET /solutions
   # GET /solutions.json
   def index
-    @solutions = Solution.where(window: @window).sort_by { |solution| solution.score }
+    @solutions = Solution.where(window: @window).sort_by { |solution| - solution.score }
   end
 
   # GET /solutions/1
