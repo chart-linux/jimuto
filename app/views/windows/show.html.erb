@@ -5,15 +5,28 @@
 </p>
 
 <h2>Shifts</h2>
-
+<p>シフトに入るには、入りたい度に応じて、星をつけてください。</p>
 <div class='timetable'>
     <% @shifts.each do |day, shiftday| %>
       <div class='day'>
+        <div class='title'><%= day %></div>
       <% shiftday.each do |shift| %>
-      <div class='box'><%= shift.start.strftime('%H:%M') %> - <%= shift.end.strftime('%H:%M') %>
-      <div><%= link_to 'Show', shift %></div>
-      <div><%= link_to 'Edit', edit_shift_path(shift) %></div>
-      <div><%= link_to 'Destroy', shift, method: :delete, data: { confirm: 'Are you sure?' } %></div>
+        <div class='box a<%= shift.requests.length%>'>
+          <%= shift.start.strftime('%H:%M') %> - <%= shift.end.strftime('%H:%M') %>
+          <form>
+          <input name="rate" type="radio" class="star"/>
+          <input name="rate" type="radio" class="star"/>
+          <input name="rate" type="radio" class="star"/>
+          <input name="rate" type="radio" class="star"/>
+          </form>
+          <ul>
+          <% shift.requests[0..3].each do |k| %>
+            <li><%= k.user.name %></li>
+          <% end %>
+          <% if shift.requests.length > 4 then %>
+            <li> ... </li>
+          <% end %>
+          </ul>
       </div>
     <% end %>
     </div>

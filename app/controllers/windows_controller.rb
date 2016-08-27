@@ -1,5 +1,5 @@
 class WindowsController < ApplicationController
-  before_action :set_window, only: [:show, :edit, :update, :destroy]
+  before_action :set_window, only: [:show, :edit, :update, :destroy, :init_timetable]
 
   # GET /windows
   # GET /windows.json
@@ -10,7 +10,7 @@ class WindowsController < ApplicationController
   # GET /windows/1
   # GET /windows/1.json
   def show
-    @shifts = Shift.where('window = ?', @window).group_by{|s| s.start.strftime("%Y-%m-%d")}
+    @shifts = Shift.where('window_id = ?', @window).group_by{|s| s.start.strftime("%Y-%m-%d")}
   end
 
   # GET /windows/new
@@ -20,6 +20,9 @@ class WindowsController < ApplicationController
 
   # GET /windows/1/edit
   def edit
+  end
+
+  def init_timetable
   end
 
   # POST /windows
