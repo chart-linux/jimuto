@@ -14,6 +14,7 @@
   <div class="field">
     <%= f.label :message %>
     <%= f.text_area :message %>
+    <%= select_tag :start_date, options_for_select(@dates) %>
   </div>
 
   <div class="actions">
