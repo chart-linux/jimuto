@@ -36,7 +36,7 @@ class SolutionsController < ApplicationController
     request_solutions = params[:shifts].map{|_, request_id| solution.request_solutions.build(request_id: request_id.to_i) }
 
     if RequestSolution.import request_solutions
-      redirect_to controller: :windows, action: 'index', notice: 'シフトの解決案を提出しました。'
+      redirect_to controller: :solutions, action: 'index', notice: 'シフトの解決案を提出しました。', window_id: solution.window.id
     end
   end
 
