@@ -6,22 +6,28 @@
 
 <h2>Shifts</h2>
 <p>シフトに入るには、入りたい度に応じて、星をつけてください。</p>
+<dl>
+<dt>☆</dt><dd>できれば他の人に入って欲しい</dd>
+<dt>☆☆</dt><dd>どちらかというと他の時間に入りたい</dd>
+<dt>☆☆☆</dt><dd>どちらかといえばこの時間が都合がよい</dd>
+<dt>☆☆☆☆</dt><dd>できればこの時間に入りたい</dd>
 <div class='timetable'>
     <% @shifts.each do |day, shiftday| %>
       <div class='day'>
         <div class='title'><%= day %></div>
       <% shiftday.each do |shift| %>
-        <div class='box a<%= shift.requests.length%>'>
+        <% ur = @user_requests[shift.id] %>
+        <div id='shift<%= shift.id %>' class='box a<%= shift.requests.length %> <%= ur ? "has_user_request" : "" %>'>
           <%= shift.start.strftime('%H:%M') %> - <%= shift.end.strftime('%H:%M') %>
           <form>
-          <input name="rate" type="radio" class="star"/>
-          <input name="rate" type="radio" class="star"/>
-          <input name="rate" type="radio" class="star"/>
-          <input name="rate" type="radio" class="star"/>
+            <input name="<%= shift.id %>" type="radio" class="star" value="1" <%= ur and ur.eagerness == 1 ? "checked" : "" %>/>
+            <input name="<%= shift.id %>" type="radio" class="star" value="2" <%= ur and ur.eagerness == 2 ? "checked" : "" %>/>
+            <input name="<%= shift.id %>" type="radio" class="star" value="3" <%= ur and ur.eagerness == 3 ? "checked" : "" %>/>
+            <input name="<%= shift.id %>" type="radio" class="star" value="4" <%= ur and ur.eagerness == 4 ? "checked" : "" %>/>
           </form>
           <ul>
-          <% shift.requests[0..3].each do |k| %>
-            <li><%= k.user.name %></li>
+          <% shift.requests.order('eagerness DESC')[0..3].each do |k| %>
+            <li class="eagerness<%=k.eagerness%>" id="request<%=k.id %>"><%= k.user.name %></li>
           <% end %>
           <% if shift.requests.length > 4 then %>
             <li> ... </li>
@@ -37,3 +43,33 @@
 
 <%= link_to 'Edit Message', edit_window_path(@window) %> |
 <%= link_to 'Back', windows_path %>
+
+<div id="username"><%=current_user.name%></div>
+
+<script>
+  $( 'input.star' ).change( function() {  
+    $.ajax({
+       scriptCharset: 'utf-8',
+       type:"PUT",
+       url: '/api/update_request/put.json',
+       data: {
+         eagerness: $(this).val(), 
+         shift: $(this).attr('name')
+       },
+       success: function(data){
+         // $('#notice').text('eagerness saved!');
+         $("#shift" + data.shift).addClass('has_user_request');
+         if ($("#request" + data.request).length == 0) {
+           $("#shift" + data.shift + ' ul').prepend(
+                   $("<li id='request" + data.request + "'>" + $('#username').text() + "</li>"));
+         }
+         $("#request" + data.request).removeClass('eagerness1');
+         $("#request" + data.request).removeClass('eagerness2');
+         $("#request" + data.request).removeClass('eagerness3');
+         $("#request" + data.request).removeClass('eagerness4');
+         $("#request" + data.request).addClass('eagerness' + data.eagerness);
+       }
+    }
+    )
+  });
+</script>
