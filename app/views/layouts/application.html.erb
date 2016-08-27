@@ -13,7 +13,8 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 		<% if user_signed_in? %>
-			<p><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></p>
+			<p><%= link_to "log out", destroy_user_session_path, method: :delete %></p>
+      <p><%= link_to 'edit user-information', edit_user_registration_path %></p>
 		<% end %>
   </body>
 </html>
