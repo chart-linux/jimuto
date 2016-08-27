@@ -1,21 +1,32 @@
-<h1>Solutions</h1>
+<div class="row">
+<h1 class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10">解決案一覧  <%= @solutions.first.window.period if @solultions %></h1>
+<%= link_to 'New Solution', new_solution_path(window_id: @window.id),  {class: "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2  btn btn-primary new-button"}%>
+</div>
+<div class="row">
+<p><%= @solutions.first.window.message if @solultions %></p>
 
+</div>
 <% if @solutions.length != 0 %>
-
-<table>
+<div class="row">
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>User Name</th>
-      <th>Score of Solution</th>
-      <th>Solved at</th>
-      <th>Copy and Answer</th>
+      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">氏名</th>
+      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">解決案の得点</th>
+      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">提出日時</th>
+      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">回答をコピーして再提出</th>
     </tr>
   </thead>
 
   <tbody>
     <% @solutions.each do |solution| %>
+      <% if solution.user == current_user %>
+      <tr class="info">
+      <% else %>
       <tr>
-        <td><%= link_to solution.user.name, user_path(solution.user) %></td>
+      <% end %>
+        <td>
+        <%= link_to solution.user.name, user_path(solution.user) %></td>
         <td><%= solution.score %></td>
         <td><%= solution.created_at.strftime('%Y-%m-%d %H:%M') %></td>
         <td><% if current_user == solution.user then %><%= link_to 'Copy', new_solution_path(window_id: solution.window.id, copy_from: solution.id) %><% end %></td>
@@ -23,10 +34,9 @@
     <% end %>
   </tbody>
 </table>
+</div>
 
 <br>
 <% else %>
 <p>解決案がありません。解決案を投稿してください。<p>
 <% end %>
-
-<%= link_to 'New Solution', new_solution_path(window_id: @window.id) %>

@@ -1,21 +1,22 @@
 <p id="notice"><%= notice %></p>
-
-<h1 class="col-lg-10">Windows</h1>
-
-<% if current_user.admin? then %>
-<%= link_to 'New Window', new_window_path, {class: "col-lg-2 btn btn-primary"}%>
+<div class="row">
+  <h1 class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10">Windows</h1>
+  
+  <% if current_user.admin? then %>
+  <%= link_to 'New Window', new_window_path, {class: "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 btn btn-primary new-button"}%>
 <% end %>
-
+</div>
+<div class="row">
 <table class="table">
   <thead>
     <tr>
-      <th class="col-lg-2">期間</th>
-      <th class="col-lg-2">メッセージ</th>
-      <th class="col-lg-2">解決案</th>
+      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">期間</th>
+      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">メッセージ</th>
+      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">解決案</th>
       <% if current_user.admin? then %>
-      <th class="col-lg-2">操作</th>
+      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">操作</th>
       <% end %>
-      <th class="col-lg-2">状態</th>
+      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">状態</th>
     </tr>
   </thead>
 
@@ -42,6 +43,7 @@
     <% end %>
   </tbody>
 </table>
+</div>
 
 <br>
 
