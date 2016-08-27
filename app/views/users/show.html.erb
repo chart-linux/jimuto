@@ -1,0 +1,41 @@
+<% provide(:title, @user.name) %>
+<h1><%= @user.name %></h1>
+<h2>Lv.
+    <%= Math::log(@user.solutions.max{|a, b| a.score <=> b.score }.score +
+      10 * @user.solutions.group_by(&:window).count +
+      10 * @user.requests.sum(&:eagerness) +
+      20 * @user.requests.count + 10000).floor - 7 %></h2>
+<table class="achievement">
+  <tr>
+  <th>Achivement Points:</th>
+  <td>
+    <%= @user.solutions.max{|a, b| a.score <=> b.score }.score +
+      10 * @user.solutions.group_by(&:window).count +
+      10 * @user.requests.sum(&:eagerness) +
+      20 * @user.requests.count %> pts.
+
+    </td>
+  </tr>
+  <tr>
+  <th>Karma:</th>
+  <td></td>
+  </tr>
+</table>
+<table class="achievement">
+  <tr>
+  <th>最高シフト解決スコア</th>
+  <td> <%= @user.solutions.max{|a, b| a.score <=> b.score }.score %></td>
+  </tr>
+  <tr>
+  <th>シフト解決提案数</th>
+  <td><%= @user.solutions.group_by(&:window).count %></td>
+  </tr>
+  <tr>
+  <th>つけた星の数</th>
+  <td><%= @user.requests.sum(&:eagerness) %></td>
+  </tr>
+  <tr>
+  <th>星をつけたコマの数</th>
+  <td><%= @user.requests.count %></td>
+  </tr>
+</table>
