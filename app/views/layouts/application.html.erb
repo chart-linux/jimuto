@@ -43,10 +43,6 @@
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-		<% if user_signed_in? %>
-			<p><%= link_to "log out", destroy_user_session_path, method: :delete %></p>
-      <p><%= link_to 'edit user-information', edit_user_registration_path %></p>
-		<% end %>
 
     <div class="navbar navbar-default navbar-static-top">
       <div class="container">
@@ -58,9 +54,13 @@
         <a class="navbar-brand" href="#">Jimuto</a>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-            <li><%= link_to "Link1", "/path1"  %></li>
+            <li><%= link_to "Windows", controller: :windows  %></li>
             <li><%= link_to "Link2", "/path2"  %></li>
             <li><%= link_to "Link3", "/path3"  %></li>
+            <% if user_signed_in? %>
+              <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
+              <li><%= link_to '設定', edit_user_registration_path %></li>
+            <% end %>
           </ul>
         </div>
       </div>
@@ -77,7 +77,7 @@
             <h3>Sidebar</h3>
             <ul class="nav nav-list">
               <li class="nav-header">Sidebar</li>
-              <li><%= link_to "Link1", "/path1"  %></li>
+              <li><%= link_to "Windows", controller: :windows  %></li>
               <li><%= link_to "Link2", "/path2"  %></li>
               <li><%= link_to "Link3", "/path3"  %></li>
             </ul>

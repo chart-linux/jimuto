@@ -1,30 +1,43 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Windows</h1>
+<h1 class="col-lg-10">Windows</h1>
 
-<table>
+<% if current_user.admin? then %>
+<%= link_to 'New Window', new_window_path, {class: "col-lg-2 btn btn-primary"}%>
+<% end %>
+
+<table class="table">
   <thead>
     <tr>
-      <th>Period</th>
-      <th>Message</th>
-      <th>Solutions</th>
+      <th class="col-lg-2">期間</th>
+      <th class="col-lg-2">メッセージ</th>
+      <th class="col-lg-2">解決案</th>
       <% if current_user.admin? then %>
-      <th>Manipulation</th>
+      <th class="col-lg-2">操作</th>
       <% end %>
-      <th>Status</th>
+      <th class="col-lg-2">状態</th>
     </tr>
   </thead>
 
   <tbody>
     <% @windows.each do |window| %>
-      <tr>
-        <td><%= link_to window.period, window %></td>
-        <td><%= window.message %></td>
-        <td><%= link_to "Greatest: #{window.solutions.greatest&.score || 'No one solved yet' }", solutions_path(window_id: window.id ) %>
+    <% case window.status %>
+    <% when "requesting" then %>
+      <tr class="danger">
+    <% when "solving" then %>
+      <tr class="warning">
+    <% when "confirmed" then %>
+      <tr class="info">
+    <% else %>
+      <tr class="success">
+    <% end %>
+        <td class="col-lg-2"><%= link_to window.period, window %></td>
+        <td class="col-lg-2"><%= window.message %></td>
+        <td class="col-lg-2"><%= link_to "Greatest: #{window.solutions.greatest&.score || 'No one solved yet' }", solutions_path(window_id: window.id ) %>
         <% if current_user.admin? then %>
-        <td><%= link_to 'Edit', edit_window_path(window) %></td>
+        <td class="col-lg-2"><%= link_to 'Edit', edit_window_path(window) %></td>
         <% end %>
-        <td><%= window.status  %></td>
+        <td class="col-lg-2"><%= window.status  %></td>
       </tr>
     <% end %>
   </tbody>
@@ -32,6 +45,3 @@
 
 <br>
 
-<% if current_user.admin? then %>
-<%= link_to 'New Window', new_window_path %>
-<% end %>
