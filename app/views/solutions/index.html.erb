@@ -7,6 +7,7 @@
     <tr>
       <th>User Name</th>
       <th>Score of Solution</th>
+      <th>Solved at</th>
       <th>Copy and Answer</th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= solution.user.name %></td>
         <td><%= solution.score %></td>
+        <td><%= solution.created_at.strftime('%Y-%m-%d %H:%M') %></td>
         <td><% if current_user == solution.user then %><%= link_to 'Copy', new_solution_path(window_id: solution.window.id, copy_from: solution.id) %><% end %></td>
       </tr>
     <% end %>
