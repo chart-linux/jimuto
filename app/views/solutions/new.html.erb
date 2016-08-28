@@ -18,11 +18,11 @@ function change_color(){
     var selected_option = $(box).children().first().children().filter((ind, elem) => elem.value === selected_request_id ).first();
     var tiredness = parseInt(selected_option.text().split('/')[1].match(/\d+/)[0]);
     var eagerness = parseInt(selected_option.text().split('/')[2].match(/\d+/)[0]);
-    var virtual_score = Math.exp(0 - tiredness) + Math.exp(0 - $(box).length) + eagerness;
+    var virtual_score = Math.exp(0 - tiredness) + Math.exp(0 - $(box).length) + (eagerness/4.0);
 
-    var redness = Math.round(virtual_score / 5 * 255);
-    $(box).css('background-color', `rgb(${redness}, ${255 - redness}, 0)`);
-    console.log(`rgb(${redness}, ${255 - redness}, 0)`);
+    var redness = Math.round(255 * Math.exp(0 - virtual_score));
+    console.log(redness);
+    $(box).css('background-color', `rgb(255, ${255 - redness} , 255)`);
   });
 };
 change_color();
