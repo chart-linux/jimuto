@@ -13,20 +13,25 @@
     <div class="panel-footer">
       <% if window.requesting? %>
         <%= link_to(
-          'シフトを登録する',
+          'シフト申し込み',
           window,
           { class: 'btn btn-primary' }
         ) %>
       <% elsif window.solving? %>
         <%= link_to(
-          'シフト組みをする',
+          'シフト組み',
           new_solution_path(window_id: window.id),
           { class: 'btn btn-warning' }
+        ) %>
+        <%= link_to(
+          '解答を見る',
+          solutions_path(window_id: window.id),
+          { class: 'btn btn-info' }
         ) %>
       <% else %>
         <%= link_to(
           '解答を見る',
-          new_solution_path(window_id: window.id),
+          solutions_path(window_id: window.id),
           { class: 'btn btn-info' }
         ) %>
       <% end %>
