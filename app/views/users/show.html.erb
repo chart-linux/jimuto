@@ -1,46 +1,43 @@
 <% provide(:title, @user.name) %>
 <h1><img src='/images/avatar/2.png' width='50' height='50'/><%= @user.name %></h1>
 <h2>Lv.
-    <%= Math::log(@user.solutions.max{|a, b| a.score <=> b.score }.score +
-      10 * @user.solutions.group_by(&:window).count +
-      10 * @user.requests.sum(&:eagerness) +
-      20 * @user.requests.count + 10000).floor - 7 %></h2>
+  <%= (Math::log(@user.achievement_score + 1000)/3).floor %></h2>
 <table class="achievement">
   <tr>
-  <th>Achivement Points:</th>
+  <th>スコア</th>
   <td>
-    <%= @user.solutions.max{|a, b| a.score <=> b.score }.score +
-      10 * @user.solutions.group_by(&:window).count +
-      10 * @user.requests.sum(&:eagerness) +
-      20 * @user.requests.count %> pts.
-
-    </td>
+  <%= @user.achievement_score %> pts.
+  [ranked <%= User.all.sort{|u, v| -u.achievement_score <=> -v.achievement_score}.index(@user) %>]
+  </td>
   </tr>
   <tr>
-  <th>Karma:</th>
-  <td><%= @user.point %> pts.</td>
+  <th>疲労度</th>
+  <td><%= @user.point %></td>
   </tr>
 </table>
 <table class="achievement">
   <tr>
   <th>最高シフト解決スコア</th>
-  <td> <%= @user.solutions.max{|a, b| a.score <=> b.score }.score %></td>
+  <td> <%= @user.solutions.count != 0 ? @user.solutions.max{|a, b| a.score <=> b.score }.score : 0 %></td>
   </tr>
   <tr>
   <th>シフト解決提案数</th>
   <td><%= @user.solutions.group_by(&:window).count %></td>
   </tr>
   <tr>
-  <th>シフト解決数</th>
-  <td><%= Window.all.select{|w| w.confirmed? and w.best_solution.user == @user}.count %></td>
+  <th>シフト解決採用数</th>
+  <td><%= @user.accepted_solutions.count %></td>
+  <td>[ranked <%= User.all.sort{|u,v| -u.accepted_solutions.count <=> -v.accepted_solutions.count}.map{|u| u.accepted_solutions.count}.index(@user.accepted_solutions.count)+1%>]</td>
   </tr>
   <tr>
   <th>つけた星の数</th>
   <td><%= @user.requests.sum(&:eagerness) %></td>
+  <td>[ranked <%= User.all.sort{|u,v| -u.requests.sum(&:eagerness) <=> -v.requests.sum(&:eagerness)}.map{|u| u.requests.sum(&:eagerness)}.index(@user.requests.sum(&:eagerness))+1%>]</td>
   </tr>
   <tr>
   <th>星をつけたコマの数</th>
   <td><%= @user.requests.count %></td>
+  <td>[ranked <%= User.all.sort{|u,v| -u.requests.count <=> -v.requests.count}.map{|u| u.requests.count}.index(@user.requests.count)+1%>]</td>
   </tr>
 </table>
 <h2>Achievements</h2>
