@@ -14,6 +14,10 @@ class Window < ApplicationRecord
   end
 
   def best_solution
-    solutions.max{|a, b| a.score <=> b.score}
+    if solutions.blank?
+      nil
+    else
+      solutions.max{|a, b| a.score <=> b.score}
+    end
   end
 end

@@ -14,4 +14,10 @@ class User < ApplicationRecord
     10 * requests.sum(&:eagerness) +
     20 * requests.count
   end
+  def counts_in_window(w)
+    in_window(w).count
+  end
+  def in_window(w)
+    requests.where(shift:w.shifts)
+  end
 end

@@ -1,4 +1,15 @@
 <%= render 'form', solution: @solution %>
+<h3>Hint:</h3>
+<ul>
+  <% User.all.sort{|u, v| u.counts_in_window(@window) <=> v.counts_in_window(@window)}[0..10].each {|u| %>
+    <li>
+      <%= u.name %>
+      <% u.in_window(@window).each {|r| %>
+        <%= r.shift.start.strftime('%m/%d %H:%M') %>,
+      <% } %>
+    </li>
+<% } %>
+</ul>
 
 <script type='text/javascript'>
 function change_color(){

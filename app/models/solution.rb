@@ -11,7 +11,7 @@ class Solution < ApplicationRecord
     # eagerness
     
     score = requests.sum{|request| 
-      request.score_by_point + request.shift.score_by_popularity + request.eagerness/4
+      request.score_by_point + request.shift.score_by_popularity + request.eagerness.to_f/4.to_f
     }
     score = (score / requests.count.to_f * 100 )
     user_ids = []
