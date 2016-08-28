@@ -1,1 +1,21 @@
 <%= render 'form', solution: @solution %>
+
+<script type='text/javascript'>
+function change_color(){
+  $('.box').each(function(i, box){
+    var selected_request_id = $(box).children().first().val();
+    var selected_option = $(box).children().first().children().filter((ind, elem) => elem.value === selected_request_id ).first();
+    var tiredness = parseInt(selected_option.text().split('/')[1].match(/\d+/)[0]);
+    var eagerness = parseInt(selected_option.text().split('/')[2].match(/\d+/)[0]);
+    var virtual_score = Math.exp(0 - tiredness) + Math.exp(0 - $(box).length) + eagerness;
+
+    var redness = Math.round(virtual_score / 5 * 255);
+    $(box).css('background-color', `rgb(${redness}, ${255 - redness}, 0)`);
+    console.log(`rgb(${redness}, ${255 - redness}, 0)`);
+  });
+};
+change_color();
+$('select').each((ind, select) => {
+  select.addEventListener('change', change_color);
+});
+</script>
