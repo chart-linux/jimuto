@@ -74,8 +74,12 @@ class WindowsController < ApplicationController
   # PATCH/PUT /windows/1.json
   def update
     respond_to do |format|
-      if @window.update(window_params)
-        format.html { redirect_to windows_path, notice: 'Window was successfully updated.' }
+      if window_params[:status] == "confirmed" && @window.best_solution.nil?
+        format.html { redirect_to windows_path, alert: '解決案の回答がありません。' }
+        format.json { render json: @window.errors, status: :unprocessable_entity }
+        
+      elsif @window.update(window_params)
+        format.html { redirect_to windows_path, notice: '更新しました。' }
         format.json { render :show, status: :ok, location: @window }
       else
         format.html { render :edit }
