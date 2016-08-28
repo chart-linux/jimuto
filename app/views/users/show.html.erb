@@ -7,7 +7,6 @@
   <th>スコア</th>
   <td>
   <%= @user.achievement_score %> pts.
-  [ranked <%= User.all.sort{|u, v| -u.achievement_score <=> -v.achievement_score}.index(@user) %>]
   </td>
   </tr>
   <tr>
