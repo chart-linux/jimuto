@@ -50,24 +50,22 @@ class WindowsController < ApplicationController
   # POST /windows.json
   def create
     @window = Window.new(window_params)
-    puts "------------------------------------"
-    pp window_params
     @window.save!
     time = Time.at(start_date_params["start_date"].to_i)
     7.times do |week_num|
-      [[[hour: 8], [hour: 10]], [[hour: 10], [hour: 12, minute: 30]],[ [hour: 12, minute: 30], [hour: 15]],[[hour: 15], [hour: 17, minute: 30]],[[hour: 17, minute: 30],[hour: 20]],[[hour: 20], [hour: 23]]].each do |options|
-      Shift.create!(
-        start: time.change(options[0][0]),
-        end: time.change(options[1][0]),
-        window: @window
-      )
-    end
-      Shift.create!(
-        start: time.change(hour: 23),
-        end: time.tomorrow.change(hour: 8),
-        window: @window
-      )
-    time = time.tomorrow
+        [[[hour: 8], [hour: 10]], [[hour: 10], [hour: 12, minute: 30]],[ [hour: 12, minute: 30], [hour: 15]],[[hour: 15], [hour: 17, minute: 30]],[[hour: 17, minute: 30],[hour: 20]],[[hour: 20], [hour: 23]]].each do |options|
+        Shift.create!(
+          start: time.change(options[0][0]),
+          end: time.change(options[1][0]),
+          window: @window
+        )
+      end
+        Shift.create!(
+          start: time.change(hour: 23),
+          end: time.tomorrow.change(hour: 8),
+          window: @window
+        )
+      time = time.tomorrow
     end
     redirect_to @window
   end
