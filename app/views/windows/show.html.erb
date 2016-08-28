@@ -17,7 +17,16 @@
 
     <script>
     <!--
-
+    window.onload = function() {
+        if($(window).width() >= 992)
+        {
+          $(".day").width("<%= (100.to_f/@shifts.count).to_s %>%");
+        }
+        else
+        {
+          $(".day").width("<%= (200.to_f/@shifts.count).to_s %>%");
+        }
+      };
       $(window).resize(function() {
         if($(window).width() >= 992)
         {
@@ -34,7 +43,7 @@
 
 <div class='timetable list-group'>
     <% @shifts.each do |day, shiftday| %>
-      <div class='day'>
+      <div class='day' style>
         <div class='title list-group-item'><%= day %></div>
       <% shiftday.each do |shift| %>
         <% ur = @user_requests[shift.id] %>
