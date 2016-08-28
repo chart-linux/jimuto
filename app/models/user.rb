@@ -5,4 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   has_many :requests
   has_many :solutions
+  def accepted_solutions
+    Window.all.select{|w| w.confirmed? and w.best_solution.user == @user}
+  end
 end
