@@ -14,6 +14,24 @@
 <dt>☆☆</dt><dd>どちらかというと他の時間に入りたい</dd>
 <dt>☆☆☆</dt><dd>どちらかといえばこの時間が都合がよい</dd>
 <dt>☆☆☆☆</dt><dd>できればこの時間に入りたい</dd>
+
+    <script>
+    <!--
+
+      $(window).resize(function() {
+        if($(window).width() >= 992)
+        {
+          $(".day").width("<%= (100.to_f/@shifts.count).to_s %>%");
+        }
+        else
+        {
+          $(".day").width("<%= (200.to_f/@shifts.count).to_s %>%");
+        }
+      });
+
+// -->
+</script>
+
 <div class='timetable list-group'>
     <% @shifts.each do |day, shiftday| %>
       <div class='day'>
