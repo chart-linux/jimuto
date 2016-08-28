@@ -81,7 +81,8 @@
 <% end %>
 
 <script>
-  $ (function () {
+  window.onload = 
+  function () {
   if (update_disable) {
     $('input.star').rating('disable');
   }
@@ -109,5 +110,5 @@
        }
     })
   })
-});
+};
 </script>
