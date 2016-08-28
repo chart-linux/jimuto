@@ -74,12 +74,12 @@ class WindowsController < ApplicationController
   # PATCH/PUT /windows/1.json
   def update
     respond_to do |format|
-      if @window.update(window_params)
-        if window_params[:status] == "confirmed"
-          fix_shift(format)
-        else
-          format.html { redirect_to windows_path, notice: 'Window was successfully updated.' }
-        end
+      if window_params[:status] == "confirmed" && @window.best_solution.nil?
+        format.html { redirect_to windows_path, alert: '解決案の回答がありません。' }
+        format.json { render json: @window.errors, status: :unprocessable_entity }
+        
+      elsif @window.update(window_params)
+        format.html { redirect_to windows_path, notice: '更新しました。' }
         format.json { render :show, status: :ok, location: @window }
       else
         format.html { render :edit }
@@ -111,9 +111,5 @@ class WindowsController < ApplicationController
 
     def start_date_params
       params.permit(:start_date)
-    end
-
-    def fix_shift(format)
-      format.html { redirect_to windows_path, notice: 'シフトを確定しました。(未実装)' }
     end
 end
