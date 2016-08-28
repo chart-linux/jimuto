@@ -55,6 +55,7 @@ gem 'activerecord-import'
 # Bootstrap
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+gem 'devise-bootstrap-views'
  
 # jQuery
 gem 'therubyracer'

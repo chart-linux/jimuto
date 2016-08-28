@@ -75,7 +75,7 @@ class WindowsController < ApplicationController
   def update
     respond_to do |format|
       if @window.update(window_params)
-        format.html { redirect_to @window, notice: 'Window was successfully updated.' }
+        format.html { redirect_to windows_path, notice: 'Window was successfully updated.' }
         format.json { render :show, status: :ok, location: @window }
       else
         format.html { render :edit }

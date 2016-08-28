@@ -1,5 +1,5 @@
-<h1>Editing Window</h1>
-
-<%= render 'form', window: @window %>
-
-<%= link_to 'Delete', @window, method: :delete, data: { confirm: 'Are you sure?' } %>
+<%- model_class = Window -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h1>
+</div>
+<%= render :partial => 'form' %>

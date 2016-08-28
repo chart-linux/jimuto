@@ -11,8 +11,10 @@
     </div>
   <% end %>
 
-  <h1>Shifts</h1>
-  
+  <div class="form-group">
+    <%= f.submit 'シフトを提出', :class => 'btn btn-primary' %>
+  </div>
+
   <div class='timetable'>
       <% @shifts.each do |day, shiftday| %>
         <div class='day'>
@@ -30,9 +32,5 @@
       <% end %>
       </div>
       <% end %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
   </div>
 <% end %>
