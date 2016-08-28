@@ -7,6 +7,8 @@
   <div class="panel panel-danger">
 <% when 'confirmed' then %>
   <div class="panel panel-info">
+<% when 'finished' then %>
+  <div class="panel panel-success">
 <% end %>
     <div class="panel-heading"><b><%= window.period %></b></div>
     <div class="panel-body"><%= window.message %></div>
@@ -28,9 +30,15 @@
           solutions_path(window_id: window.id),
           { class: 'btn btn-info' }
         ) %>
+      <% elsif window.confirmed? %>
+        <%= link_to(
+          '確定したシフトを見る',
+          solutions_path(window_id: window.id),
+          { class: 'btn btn-info' }
+        ) %>
       <% else %>
         <%= link_to(
-          '解答を見る',
+          '終了したシフトを見る',
           solutions_path(window_id: window.id),
           { class: 'btn btn-info' }
         ) %>

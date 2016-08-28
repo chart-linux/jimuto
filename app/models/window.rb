@@ -1,7 +1,7 @@
 class Window < ApplicationRecord
   has_many :shifts
   has_many :solutions
-  enum status: { requesting: 0, solving: 1, confirmed: 2 }
+  enum status: { requesting: 0, solving: 1, confirmed: 2, finished: 3 }
 
   def period
     first_shift = shifts.order(:start).first
