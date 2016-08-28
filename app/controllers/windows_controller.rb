@@ -75,7 +75,11 @@ class WindowsController < ApplicationController
   def update
     respond_to do |format|
       if @window.update(window_params)
-        format.html { redirect_to windows_path, notice: 'Window was successfully updated.' }
+        if window_params[:status] == "confirmed"
+          fix_shift(format)
+        else
+          format.html { redirect_to windows_path, notice: 'Window was successfully updated.' }
+        end
         format.json { render :show, status: :ok, location: @window }
       else
         format.html { render :edit }
@@ -107,5 +111,9 @@ class WindowsController < ApplicationController
 
     def start_date_params
       params.permit(:start_date)
+    end
+
+    def fix_shift(format)
+      format.html { redirect_to windows_path, notice: 'シフトを確定しました。(未実装)' }
     end
 end
