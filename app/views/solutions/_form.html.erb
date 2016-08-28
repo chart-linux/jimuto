@@ -33,4 +33,35 @@
       </div>
       <% end %>
   </div>
+  <%= javascript_tag do %>
+    req_user = {
+      <% @shifts.each do |day, shiftday| %>
+        <% shiftday.each do |shift| %>
+          <% shift.requests.each do |req| %>
+            <%= req.id %>: <%= req.user.id %>,
+          <% end %>
+        <% end %>
+      <% end %>
+    }
+    recolor = function () {
+      k = $('select').map(function(){ return req_user[$(this).val()] })
+      bucket = []
+      for (i = 0; i < k.length; i++) {
+        bucket[k[i]] = bucket[k[i]] || 0
+        bucket[k[i]] += 1
+      }
+      table = []
+      for (i = 0; i < k.length; i++) {
+        if (bucket[k[i]] != 1) {
+          table.push(i);
+        }
+      }
+      $('.box').css('color', 'black')
+      for (i = 0; i < table.length; i++) {
+        $($('.box')[table[i]]).css('color', 'red')
+      }
+    };
+    recolor();
+    $('select').change(recolor);
+  <% end %>
 <% end %>
