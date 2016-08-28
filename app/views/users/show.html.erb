@@ -1,5 +1,5 @@
 <% provide(:title, @user.name) %>
-<h1><%= @user.name %></h1>
+<h1><img src='/images/avatar/2.png' width='50' height='50'/><%= @user.name %></h1>
 <h2>Lv.
     <%= Math::log(@user.solutions.max{|a, b| a.score <=> b.score }.score +
       10 * @user.solutions.group_by(&:window).count +
@@ -18,7 +18,7 @@
   </tr>
   <tr>
   <th>Karma:</th>
-  <td></td>
+  <td><%= @user.point %> pts.</td>
   </tr>
 </table>
 <table class="achievement">
@@ -31,6 +31,10 @@
   <td><%= @user.solutions.group_by(&:window).count %></td>
   </tr>
   <tr>
+  <th>シフト解決数</th>
+  <td><%= Window.all.select{|w| w.confirmed? and w.best_solution.user == @user}.count %></td>
+  </tr>
+  <tr>
   <th>つけた星の数</th>
   <td><%= @user.requests.sum(&:eagerness) %></td>
   </tr>
@@ -39,3 +43,13 @@
   <td><%= @user.requests.count %></td>
   </tr>
 </table>
+<h2>Achievements</h2>
+<ul>
+<% @achievements.each {|a, b| %>
+  <% if b then %>
+    <li>
+    <%= a %>
+    </li>
+  <% end %>
+<% } %>
+</ul>

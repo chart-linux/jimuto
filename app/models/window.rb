@@ -12,4 +12,8 @@ class Window < ApplicationRecord
       'Shift is not set yet.'
     end
   end
+
+  def best_solution
+    solutions.max{|a, b| a.score <=> b.score}
+  end
 end
