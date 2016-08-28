@@ -1,49 +1,46 @@
-<p id="notice"><%= notice %></p>
-<div class="row">
-  <h1 class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10">Windows</h1>
-  
-  <% if current_user.admin? then %>
-  <%= link_to 'New Window', new_window_path, {class: "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 btn btn-primary new-button"}%>
+<% @windows.each do |window| %>
+<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+<% case window.status %>
+<% when 'requesting' then %>
+  <div class="panel panel-default">
+<% when 'solving' then %>
+  <div class="panel panel-danger">
+<% when 'confirmed' then %>
+  <div class="panel panel-info">
 <% end %>
-</div>
-<div class="row">
-<table class="table">
-  <thead>
-    <tr>
-      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">期間</th>
-      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">メッセージ</th>
-      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">解決案</th>
-      <% if current_user.admin? then %>
-      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">操作</th>
+    <div class="panel-heading"><b><%= window.period %></b></div>
+    <div class="panel-body"><%= window.message %></div>
+    <div class="panel-footer">
+      <% if window.requesting? %>
+        <%= link_to(
+          'シフトを登録する',
+          window,
+          { class: 'btn btn-primary' }
+        ) %>
+      <% elsif window.solving? %>
+        <%= link_to(
+          'シフト組みをする',
+          new_solution_path(window_id: window.id),
+          { class: 'btn btn-warning' }
+        ) %>
+      <% else %>
+        <%= link_to(
+          '解答を見る',
+          new_solution_path(window_id: window.id),
+          { class: 'btn btn-info' }
+        ) %>
       <% end %>
-      <th class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">状態</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @windows.each do |window| %>
-    <% case window.status %>
-    <% when "requesting" then %>
-      <tr class="danger">
-    <% when "solving" then %>
-      <tr class="warning">
-    <% when "confirmed" then %>
-      <tr class="info">
-    <% else %>
-      <tr class="success">
-    <% end %>
-        <td class="col-lg-2"><%= link_to window.period, window %></td>
-        <td class="col-lg-2"><%= window.message %></td>
-        <td class="col-lg-2"><%= link_to "Greatest: #{window.solutions.greatest&.score || 'No one solved yet' }", solutions_path(window_id: window.id ) %>
-        <% if current_user.admin? then %>
-        <td class="col-lg-2"><%= link_to 'Edit', edit_window_path(window) %></td>
-        <% end %>
-        <td class="col-lg-2"><%= window.status  %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <% if current_user.admin? then %>
+        <%= link_to(
+          '編集',
+          edit_window_path(window),
+          { class: 'btn btn-success' }
+        )%>
+      <% end %>
+    </div>
+  </div>
 </div>
+<% end %>
 
 <br>
 
