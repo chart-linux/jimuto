@@ -9,7 +9,7 @@ class Request < ApplicationRecord
   def self.for_select_tag
     all.map do |request|
       [
-        request.user.name + " / スコア:" +  request.user.point.to_s + " / 意欲:" + request.eagerness.to_s,
+        request.user.name + " / 疲労度:" +  request.user.point.to_s + " / 意欲:" + request.eagerness.to_s,
         request.id
       ]
     end
